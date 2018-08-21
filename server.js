@@ -1,8 +1,11 @@
 const express = require('express');
 const hbs = require('hbs');
 const port = process.env.PORT || port;
-
+const http = require('http')
 const app = express();
+const server = http.createServer(app);
+const socketIO = require('socket.io');
+const io = socketIO(server);
 
 hbs.registerPartials(__dirname + '/views/partials')
 app.set('view engine', 'hbs');
@@ -36,6 +39,30 @@ app.get('/bad', (req, res) => {
   });
 });
 
-app.listen(port, () => {
+io.on('connection', (socket) => {
+  console.log('New user:');
+
+    socket.on('disconnection', (socket) => {
+    console.log('Disconnected:');
+  });
+});
+
+io.on('connect', (socket) => {
+  console.log('New connect:');
+
+
+  socket.emit('newEmail', {data: 'data'})
+
+  socket.on('disconnect', (socket) => {
+    console.log('Disconnect:');
+  });
+
+  socket.on('createEmail', (data) => {
+    io.emit('newEmail', data);
+  });
+
+});
+
+server.listen(port, () => {
   console.log(`Server is up on port ${port}`);
 });
