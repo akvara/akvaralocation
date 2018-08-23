@@ -1,13 +1,13 @@
 const express = require('express');
 const hbs = require('hbs');
 const port = process.env.PORT || port;
-const http = require('http')
+const http = require('http');
 const app = express();
 const server = http.createServer(app);
 const socketIO = require('socket.io');
 const io = socketIO(server);
 
-hbs.registerPartials(__dirname + '/views/partials')
+hbs.registerPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
 app.use(express.static(__dirname + '/public'));
 
@@ -51,7 +51,7 @@ io.on('connect', (socket) => {
   console.log('New connect:');
 
 
-  socket.emit('newEmail', {data: 'data'})
+  socket.emit('newEmail', {data: 'data'});
 
   socket.on('disconnect', (socket) => {
     console.log('Disconnect:');
