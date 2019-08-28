@@ -13,7 +13,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 const users = new Users();
-
+const version = '1.08.28';
 const room = 'location';
 
 app.use(express.static(publicPath));
@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
         users.addUser(socket.id, params.name, room);
 
         io.to(room).emit('updateUserList', users.getUserList(room));
-        socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
+        socket.emit('newMessage', generateMessage('Admin', `Welcome to the chat app v.${version}`));
         socket.broadcast.to(room).emit('newMessage', generateMessage('Admin', `${params.name} has joined.`));
         callback();
     });
