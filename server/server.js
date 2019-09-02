@@ -13,7 +13,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 const users = new Users();
-const version = '1.08.28';
+const version = '1.09.02';
 const room = 'location';
 
 app.use(express.static(publicPath));
